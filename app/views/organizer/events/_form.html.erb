@@ -1,0 +1,154 @@
+<%= form_for [:organizer , @event] do |f| %>
+  <% if @event.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul>
+      <% @event.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <%= f.hidden_field :event_organizer_id, value: current_event_organizer.id %>
+
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, id: :event_name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, id: :event_description, rows: "10", class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :start_datetime %>
+    <%= f.text_field :start_datetime, id: :event_start_datetime, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :end_datetime %>
+    <%= f.text_field :end_datetime, id: :event_end_datetime, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+     <%= f.label :venue %>
+     <%= f.text_field :venue, class: "form-control", id:"autocomplete", onFocus:"geolocate()" %>
+  </div>
+        <%= f.hidden_field :latitude, id: :loc_lat %>
+        <%= f.hidden_field :longitude, id: :loc_lng %>
+
+
+  <div class="form-group">
+    <%= f.label :city %>
+    <%= f.text_field :city, id: :event_city, class: "form-control",id:"autocomplete", onFocus:"geolocate()" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :country %>
+    <%= f.text_field :country, id: :event_country, class: "form-control", id:"autocomplete", onFocus:"geolocate()" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :zipcode %>
+    <%= f.text_field :zipcode, id: :event_zipcode, class: "form-control", id:"autocomplete", onFocus:"geolocate()" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :cover_image %>
+    <%= f.file_field :cover_image, id: :event_cover_image %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :is_free %>
+    <%= f.check_box :is_free, id: :event_is_free %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :is_paid %>
+    <%= f.check_box :is_paid, id: :event_is_paid %>
+  </div>
+
+  <h3>Event Tickets</h3>
+  <div id="tasks">
+    <%= f.fields_for :event_tickets do |event_ticket| %>
+      <%= render 'event_ticket_fields', f: event_ticket %>
+    <% end %>
+    <div class="links">
+      <%= link_to_add_association 'Add Event Ticket', f, :event_tickets %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function () {
+    $('#event_start_datetime').datetimepicker();
+    $('#event_end_datetime').datetimepicker();
+  });
+</script>
+<script>
+var placeSearch, autocomplete;
+var componentForm = {
+  street_number: 'short_name',
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_1: 'short_name',
+  country: 'long_name',
+  postal_code: 'short_name'
+};
+
+function initAutocomplete() {
+  autocomplete = new google.maps.places.Autocomplete(
+    /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+    {types: ['geocode']});
+
+  autocomplete.addListener('place_changed', fillInAddress);
+}
+
+function fillInAddress() {
+  var place = autocomplete.getPlace();
+  lat = place.geometry.location.lat();
+  long = place.geometry.location.lng();
+
+  $("#loc_lat").val(lat);
+  $("#loc_lng").val(long);
+
+  for (var component in componentForm) {
+    document.getElementById(component).value = '';
+    document.getElementById(component).disabled = false;
+  }
+
+  for (var i = 0; i < place.address_components.length; i++) {
+    var addressType = place.address_components[i].types[0];
+    if (componentForm[addressType]) {
+      var val = place.address_components[i][componentForm[addressType]];
+      document.getElementById(addressType).value = val;
+    }
+  }
+}
+
+function geolocate() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      });
+      autocomplete.setBounds(circle.getBounds());
+    });
+  }
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoyg0-V2SGkVEAUY2XYvfJby1cPD7LrHE&libraries=places&callback=initAutocomplete"
+    async defer></script>

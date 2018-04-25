@@ -1,0 +1,2 @@
+class OrganizerMailer < ApplicationMailer
+end

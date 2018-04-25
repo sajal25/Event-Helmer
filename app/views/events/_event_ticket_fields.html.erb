@@ -1,0 +1,58 @@
+<div class="nested-fields">
+    <div class="">
+      <div class="panel panel-primary">
+        <div class="panel-body">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-3">
+                <%= f.label :name, style: "font-size:20px;" %>
+              </div>
+              <div class="col-md-9">
+                <%= f.text_field :name, class: "form-control" %>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= f.label :ticket_description %>
+            <%= f.text_area :ticket_description, rows: "10", class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :available_quantity %>
+            <br/>
+            <%= f.number_field :available_quantity, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :ticket_sales_start_datetime %>
+            <br/>
+            <%= f.text_field :ticket_sales_start_datetime, class: "event_start_datetime form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :ticket_sales_end_datetime %>
+            <br/>
+            <%= f.text_field :ticket_sales_end_datetime, class: "event_end_datetime form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :price %>
+            <%= f.number_field :price, class: "form-control" %>
+          </div>  
+          <div class="form-group">
+            <%= f.check_box :is_free %>
+            <%= f.label :is_free %>
+          </div>
+          <div class="form-group">
+            <%= f.check_box :is_paid %>
+            <%= f.label :is_paid %>
+          </div>
+
+        </div>
+        <%= link_to_remove_association "Remove Event Ticket", f, class: "btn btn-primary" %>
+      </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+  $(function () {
+    $('.event_start_datetime').datetimepicker();
+    $('.event_end_datetime').datetimepicker();
+  });
+</script>

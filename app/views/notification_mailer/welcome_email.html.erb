@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <div class="mail-body" style="
+    background-color: #40C4FF;
+    padding: 5%;
+    color: #fff;
+    width: 70%;
+    margin: 0 auto;">
+    <h1 style="font-size: 35px; text-align: center;margin-bottom: 30px;margin-top:30px;">Welcome to Event-Helmer</h1>
+    <h1 style="text-align:center">Hi, <%= @user.name %></h1>
+
+    <p>
+      You have successfully join event <%= @event.name %>
+      
+    </p>
+    <p>
+      Venue: <%= @event.venue %>.
+    </p>
+    <p>Thanks for joining have a great day!</p>
+  </div>
+  </body>
+</html> 

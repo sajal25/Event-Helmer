@@ -1,0 +1,429 @@
+	<!-- BANNER SECTION -->
+	<section class="clearfix homeBanner" style="background-image: url('<%= asset_path("music.jpg")%>');">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="banerInfo">
+						<h1>Explore. Discover. Share</h1>
+						<p>Event-Helmer helps to find out great events arround you</p>
+						<%= form_for :event_search, url: :near_by_events, method: :get, html: {class: "form-inline"} do |f| %>
+							<%= f.hidden_field :lat, id: :near_loc_lat %>
+							<%= f.hidden_field :lng, id: :near_loc_lng %>
+							<div class="form-group">
+								<div class="input-group">
+									<div class="input-group-addon">Find</div>
+					          <%= f.select :find, options_for_select(EventType.all.collect {|p| [ p.name, p.id ] }),{prompt: 'Search events or categories'}, { :class => 'form-control'} %>
+									
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="input-group">
+									<div class="input-group-addon">Near</div>
+									<%= f.text_field :near, class: "form-control", id:"autocomplete", onFocus:"geolocate()",placeholder:"Location"  %>
+								
+									<div class="input-group-addon addon-right"><i class="	fa fa-crosshairs " aria-hidden="true"></i></div>
+								</div>
+							</div>
+							 <%= button_tag type: 'submit',  class: "btn btn-primary"  do %>Search
+							  <i class="fa fa-search" aria-hidden="true"></i>
+							 <%end%> 
+						<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- INTEREST SECTION -->
+	<section class="clearfix interestArea" style="background-color: #EEEEEE">
+		<div class="container" >
+			<div class="page-header text-center">
+				<h2>What are You Interested in? <small>Explore and connect with great Events</small></h2>
+			</div>
+			<div class="row">
+				<% @event_types.each do |et| %>
+					<div class="col-sm-3 col-xs-12">
+						<%= link_to event_type_path(et), class: "interestContent" do %>
+							<%= image_tag et.banner , style: "height:168px;width: 100%;" %>
+							<span style="font-size:30px"><%= et.name %></span>
+						<% end %>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</section>
+
+	<!-- THINGS SECTION -->
+	<section class="clearfix thingsArea" style="background-color: #EEEEEE">
+		<div class="container">
+			<div class="page-header text-center">
+				<h2>Popular Event Near You <small>This are some of most popular Events</small></h2>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div id="thubmnailSlider" class="carousel slide thumbnailCarousel">
+
+						<ol class="carousel-indicators">
+							<li data-target="#thubmnailSlider" data-slide-to="0" class="active"></li>
+							<li data-target="#thubmnailSlider" data-slide-to="1"></li>
+							<li data-target="#thubmnailSlider" data-slide-to="2"></li>
+							<li data-target="#thubmnailSlider" data-slide-to="3"></li>
+							<li data-target="#thubmnailSlider" data-slide-to="4"></li>
+							<li data-target="#thubmnailSlider" data-slide-to="5"></li>
+							<li data-target="#thubmnailSlider" data-slide-to="6"></li>
+							<li data-target="#thubmnailSlider" data-slide-to="7"></li>
+						</ol>
+
+						<!-- Carousel items -->
+						<div class="carousel-inner">
+							<div class="item row active">
+								<div class="col-md-4 col-sm-6 col-xs-12">
+									<div class="thingsBox">
+										<div class="thingsImage">
+											<%= image_tag "things-4.jpg", alt:"Image things" %>
+											<div class="thingsMask">
+												<ul class="list-inline rating">
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												</ul>
+												<a href="listing-details-left.html"><h2>Think Coffee <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
+												<p>215 Terry Lane, New York</p>
+											</div>
+										</div>
+										<div class="thingsCaption ">
+											<ul class="list-inline captionItem">
+												<li><i class="fa fa-heart-o" aria-hidden="true"></i> 8 k</li>
+												<li><a href="category-list-full.html">Eat & Drink</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="item row">
+								<div class="col-md-4 col-sm-6 col-xs-12">
+									<div class="thingsBox">
+										<div class="thingsImage">
+											<%= image_tag "things-5.jpg", alt:"Image things" %>
+											<div class="thingsMask">
+												<ul class="list-inline rating">
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+												</ul>
+												<a href="listing-details-left.html"><h2>Burger House</h2></a>
+												<p>2726 Shinn Street, New York</p>
+											</div>
+										</div>
+										<div class="thingsCaption ">
+											<ul class="list-inline captionItem">
+												<li><i class="fa fa-heart-o" aria-hidden="true"></i> 9.2 k</li>
+												<li><a href="category-grid-full.html">Eat & Drink</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="item row">
+								<div class="col-md-4 col-sm-6 col-xs-12">
+									<div class="thingsBox">
+										<div class="thingsImage">
+											<%= image_tag "things-8.jpg", alt:"Image things" %>
+											<div class="thingsMask">
+												<ul class="list-inline rating">
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												</ul>
+												<a href="listing-details-left.html"><h2>Hotel Govendor <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
+												<p>778 Country Street, New York</p>
+											</div>
+										</div>
+										<div class="thingsCaption ">
+											<ul class="list-inline captionItem">
+												<li><i class="fa fa-heart-o" aria-hidden="true"></i> 5k</li>
+												<li><a href="category-grid-full.html">Hotels</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="item row">
+								<div class="col-md-4 col-sm-6 col-xs-12">
+									<div class="thingsBox">
+										<div class="thingsImage">
+											<%= image_tag "things-10.jpg", alt:"Image things" %>
+											<div class="thingsMask">
+												<ul class="list-inline rating">
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												</ul>
+												<a href="listing-details-left.html"><h2>Water Grill</h2></a>
+												<p>31 Union Square, New York</p>
+											</div>
+										</div>
+										<div class="thingsCaption ">
+											<ul class="list-inline captionItem">
+												<li><i class="fa fa-heart-o" aria-hidden="true"></i> 10 k</li>
+												<li><a href="category-grid.html"> Eat & Drink</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="item row">
+								<div class="col-md-4 col-sm-6 col-xs-12">
+									<div class="thingsBox ">
+										<div class="thingsImage">
+											<%= image_tag "things-11.jpg", alt:"Image things" %>
+											<div class="thingsMask">
+												<ul class="list-inline rating">
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+													<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												</ul>
+												<a href="listing-details-left.html"><h2>John F. Kennedy Airport <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
+												<p>Queens, NY 11430, new York</p>
+											</div>
+										</div>
+										<div class="thingsCaption ">
+											<ul class="list-inline captionItem">
+												<li><i class="fa fa-heart-o" aria-hidden="true"></i> 15 k</li>
+												<li><a href="category-list-full.html">Others</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<a class="left carousel-control" href="#thubmnailSlider" data-slide="prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+						<a class="right carousel-control" href="#thubmnailSlider" data-slide="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<!-- COUNT UP SECTION -->
+	<section class="clearfix countUpSection" style="background-color: #EEEEEE;background-image: url('<%= asset_path("music.jpg")%>')">
+	<div class="container">
+		<div class="page-header text-center">
+			<h2>Why Event-Helmer?</h2>
+		</div>
+		<div class="row">
+			<div class="col-sm-3 col-xs-12">
+				<div class="text-center countItem">
+					<div class="counter">140</div>
+					<div class="counterInfo bg-color-1">Organizers</div>
+				</div>
+			</div>
+			<div class="col-sm-3 col-xs-12">
+				<div class="text-center countItem">
+					<div class="counter">120</div>
+					<div class="counterInfo bg-color-2">Events</div>
+				</div>
+			</div>
+			<div class="col-sm-3 col-xs-12">
+				<div class="text-center countItem">
+					<div class="counter">180</div>
+					<div class="counterInfo bg-color-3">Registered-User</div>
+				</div>
+			</div>
+			<div class="col-sm-3 col-xs-12">
+				<div class="text-center countItem">
+					<div class="counter">50</div>
+					<div class="counterInfo bg-color-4">Succesfully Done!</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="btnArea text-center">
+					<a href="#" class="btn btn-primary">Get it now</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- WORKS SECTION -->
+<section class="clearfix worksArea" style="background-color: #EEEEEE">
+	<div class="container">
+		<div class="page-header text-center">
+			<h2>How it Works? <small>This are some of most popular listing</small></h2>
+		</div>
+		<div class="row">
+			<div class="col-sm-4 col-xs-12">
+				<div class="thumbnail text-center worksContent">
+					<%= image_tag "works-1.png", alt:"Image works" %>
+					<div class="caption">
+						<a href="home/how_it_works"><h3>Find what you want</h3></a>
+						<p>Find and attend new things to do that fuel their passions and enrich their lives. Music festivals, venues, marathons, conferences, hackathons, air guitar contests, political rallies,seminars and many more.
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="thumbnail text-center worksContent">
+					<%= image_tag "works-2.png", alt:"Image works" %>
+					<div class="caption">
+						<a href="home/how_it_works"><h3>Review & Plan your day</h3></a>
+						<p>Create different types event,search event and register for event in minutes. Music festivals, venues, marathons, conferences, hackathons, air guitar contests, political rallies, fundraisers, gaming competitions — you name it, we power it.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="thumbnail text-center worksContent">
+					<%= image_tag "works-3.png", alt:"Image works" %>						
+					<div class="caption">
+						<a href="home/how_it_works"><h3>Explore Location</h3></a>
+						<p>Event-helmer designed to facilitate all types of events throughout the country. Our wide range of events for educational programs, training sessions, planning or board meetings, conferences, concerts, and social events or parties.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="btnArea text-center"><a href="#" class="btn btn-primary">Watch it now <i class="fa fa-play-circle" aria-hidden="true"></i></a></div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ARTICLES SECTION-->
+<section class="clearfix articlesArea">
+	<div class="container">
+		<div class="page-header text-center">
+			<h2>Articles <small>Brouse latest tips from our blog </small></h2>
+		</div>
+		<div class="row">
+			<div class="col-sm-4 col-xs-12">
+				<div class="thumbnail articleContent">
+					<a href="blog-details.html">
+						<%= image_tag "article-1.jpg", alt:"Image articles", class:"img-responsive" %>
+					</a>	
+					<div class="caption">
+						<h4>Jan 22, 2018 by <a href="#">Jno Deo</a></h4>
+						<h3><a href="blog-details.html">Lorem ipsum dolor sit amet</a></h3>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed eiusmod tempor incididunt  labore et dolore magna aliqua.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="thumbnail articleContent">
+					<a href="blog-details.html">
+						<%= image_tag "article-2.jpg", alt:"Image articles", class:"img-responsive" %>
+					</a>
+					<div class="caption">
+						<h4>jan 20, 2018 by <a href="#">Adam Smith</a></h4>
+						<h3><a href="blog-details.html">Ut enim ad minim veniam.</a></h3>
+						<p>Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="thumbnail articleContent">
+					<a href="blog-details.html"><%= image_tag "article-3.jpg", alt:"Image articles", class:"img-responsive" %>
+					</a>
+					<div class="caption">
+						<h4>Jan 10, 2018 by <a href="#">Kathy Brown</a></h4>
+						<h3><a href="blog-details.html">velit esse cillum dolore eu fugiat</a></h3>
+						<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<script>
+      // This example displays an address form, using the autocomplete feature
+      // of the Google Places API to help users fill in the information.
+
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+      var placeSearch, autocomplete;
+      var componentForm = {
+      	street_number: 'short_name',
+      	route: 'long_name',
+      	locality: 'long_name',
+      	administrative_area_level_1: 'short_name',
+      	country: 'long_name',
+      	postal_code: 'short_name'
+      };
+
+      function initAutocomplete() {
+        // Create the autocomplete object, restricting the search to geographical
+        // location types.
+        autocomplete = new google.maps.places.Autocomplete(
+        	/** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+        	{types: ['geocode']});
+
+        // When the user selects an address from the dropdown, populate the address
+        // fields in the form.
+        autocomplete.addListener('place_changed', fillInAddress);
+      }
+
+      function fillInAddress() {
+        // Get the place details from the autocomplete object.
+        var place = autocomplete.getPlace();
+        lat = place.geometry.location.lat();
+			  long = place.geometry.location.lng();
+
+			  $("#near_loc_lat").val(lat);
+			  $("#near_loc_lng").val(long);
+        for (var component in componentForm) {
+        	document.getElementById(component).value = '';
+        	document.getElementById(component).disabled = false;
+        }
+
+        // Get each component of the address from the place details
+        // and fill the corresponding field on the form.
+        for (var i = 0; i < place.address_components.length; i++) {
+        	var addressType = place.address_components[i].types[0];
+        	if (componentForm[addressType]) {
+        		var val = place.address_components[i][componentForm[addressType]];
+        		document.getElementById(addressType).value = val;
+        	}
+        }
+      }
+
+      // Bias the autocomplete object to the user's geographical location,
+      // as supplied by the browser's 'navigator.geolocation' object.
+      function geolocate() {
+      	if (navigator.geolocation) {
+      		navigator.geolocation.getCurrentPosition(function(position) {
+      			var geolocation = {
+      				lat: position.coords.latitude,
+      				lng: position.coords.longitude
+      			};
+      			var circle = new google.maps.Circle({
+      				center: geolocation,
+      				radius: position.coords.accuracy
+      			});
+      			autocomplete.setBounds(circle.getBounds());
+      		});
+      	}
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=   AIzaSyDoyg0-V2SGkVEAUY2XYvfJby1cPD7LrHE&libraries=places&callback=initAutocomplete"
+    async defer></script>
+

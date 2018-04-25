@@ -1,0 +1,30 @@
+<%= form_for :order_item, url: :create_order_orders, method: :post, remote: true do |f| %>
+  <div class="row" style="margin-top:1%;">
+    <div class="col-md-12">
+      <h4>Available Tickets : <%= @event_ticket.available_quantity %></h4>
+    </div>
+    <div class="col-md-8">
+      <h3><%= @event_ticket.name %></h3>
+    </div>
+    <div class="col-md-4">
+      <%= f.hidden_field :event_id, value: @event.id %>
+      <%= f.hidden_field :event_ticket_id, value: @event_ticket.id %>
+      <%= f.hidden_field :item_name, value: @event_ticket.name %>
+      <%= f.hidden_field :price, value: @event_ticket.price %>
+      <%= f.number_field :item_quantity, min: "1", max: "10", class: "form-control", required: true, value: "" %>
+    </div>
+  </div>
+  <p class=""><%= truncate(@event_ticket.ticket_description, length: 100) %></p>
+  <div class="row event-bottom">
+    <div class="col-md-6">
+      <% if @event_ticket.is_paid == true %>
+        <button class="btn btn-primary btn-ticket-type">Paid</button>
+      <% else %>
+        <button class="btn btn-primary btn-ticket-type">Free</button>
+      <% end %>
+    </div>
+    <div class="col-md-6">
+      <%= f.submit "Add to Buy", class: "btn btn-buy btn-ticket-type pull-right" %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,62 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title" id="myModalLabel">Buy Event Tickets</h4>
+    </div>
+    <div class="modal-body">
+      <% if @event.event_tickets.present? %>
+        <% @event_tickets.each do |event_ticket| %>
+          <div id="order_<%= event_ticket.id %>">
+            <%= form_for :order_item, url: :create_order_orders, method: :post, remote: true do |f| %>
+              <div class="row" style="margin-top:1%;">
+                <div class="col-md-12">
+                  <h4>Available Tickets : <%= event_ticket.available_quantity %></h4>
+                </div>
+                <div class="col-md-8">
+                  <h3><%= event_ticket.name %></h3>
+                </div>
+                <div class="col-md-4">
+                  <%= f.hidden_field :event_id, value: @event.id %>
+                  <%= f.hidden_field :event_ticket_id, value: event_ticket.id %>
+                  <%= f.hidden_field :item_name, value: event_ticket.name %>
+                  <%= f.hidden_field :price, value: event_ticket.price %>
+                  <%= f.number_field :item_quantity, min: "1", max: "10", class: "form-control", required: true %>
+                </div>
+              </div>
+              <p class=""><%= truncate(event_ticket.ticket_description, length: 100) %></p>
+              <div class="row event-bottom">
+                <div class="col-md-6">
+                  <% if event_ticket.is_paid == true %>
+                    <button class="btn btn-primary btn-ticket-type">Paid</button>
+                  <% else %>
+                    <button class="btn btn-primary btn-ticket-type">Free</button>
+                  <% end %>
+                </div>
+                <div class="col-md-6">
+                  <%= f.submit "Add to Buy", class: "btn btn-buy btn-ticket-type pull-right" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <hr>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <%# if user_signed_in? %>
+        <%#= link_to "Checkout", checkout_for_event_orders_path(user_id: current_user.id, order_id: current_order, event_id: @event.id), class: "btn btn-primary btn-ticket-type" %>
+      <%# else %>
+        <%= link_to "Checkout", register_for_event_orders_path(event_id: @event.id, order_id: current_order), class: "btn btn-primary btn-ticket-type" %>
+      <%# end %>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  .btn-ticket-type {padding-left: 20px;padding-right:20px;}
+  .event-bottom {margin-top:-3%;}
+  .btn-buy {background-color: #2b6532;}
+  .btn-remove {background-color: red;}
+</style>

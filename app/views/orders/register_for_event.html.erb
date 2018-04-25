@@ -1,0 +1,196 @@
+<%= javascript_include_tag "https://js.stripe.com/v2/" %>
+<script type="text/javascript">
+  Stripe.setPublishableKey('<%= "#{Rails.application.secrets.stripe_public_key}" %>')
+</script>
+<section>  
+  <div class="container">
+    <div style="margin-top:2%;"></div>
+    <div class="row">
+      <div class="col-md-6">
+        <h3><%= @event.name %></h3>
+        <h3>From <%= @event.start_datetime.strftime("%d %b %Y %H:%M %p") %> To <%= @event.end_datetime.strftime("%d %b %Y %H:%M %p") %></h3> at 
+        <h3><%= @event.venue  %></h3>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Order Summary</h3>
+          </div>
+          <div class="panel-body">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @order.order_items.each do |order_item| %>
+                  <tr>
+                    <td><%= order_item.item_name %></td>
+                    <td><%= order_item.item_quantity %></td>
+                    <td><%= order_item.item_quantity %> x <%= order_item.price %> = $ <%= "#{order_item.item_quantity * order_item.price}" %></td>
+                  </tr>
+                <% end %>
+                  <tr>
+                    <td colspan="2">Order Total</td>
+                    <td>$ <%= @order.total %></td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <% if !user_signed_in? %>  
+          <h6>Already registered at EvenrtHelmar? Please <%= link_to "Sign In", new_user_session_path %></h6>
+        <% end %>
+        <%= form_for :user_data, url: :create_event_registration_orders, method: :post, html: { id: "new_registration" } do |f| %>
+          <%= f.hidden_field :event_id, value: @event.id %>
+          <%= f.hidden_field :order_id, value: @order.id %>
+          <% if user_signed_in? %>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Registration Information</h3>
+              </div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <%= f.label :first_name %>
+                  <%= f.text_field :first_name, class: "form-control", required: true, value: current_user.first_name, disabled: true %>
+                </div>
+                <div class="form-group">
+                  <%= f.label :last_name %>
+                  <%= f.text_field :last_name, class: "form-control", required: true, value: current_user.last_name, disabled: true %>
+                </div>
+                <div class="form-group">
+                  <%= f.label :email %>
+                  <%= f.email_field :email, class: "form-control", required: true, value: current_user.email, disabled: true %>
+                </div>
+                <div class="form-group">
+                  <%= f.label :username %>
+                  <%= f.text_field :username, class: "form-control", required: true, value: current_user.username, disabled: true %>
+                </div>
+                <div class="form-group">
+                  <%= f.label :contact %>
+                  <%= f.text_field :contact, class: "form-control", required: true, value: current_user.contact, disabled: true %>
+                </div>
+              </div>
+            </div>
+          <% else %>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Registration Information</h3>
+              </div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <%= f.label :first_name %>
+                  <%= f.text_field :first_name, class: "form-control", required: true %>
+                </div>
+                <div class="form-group">
+                  <%= f.label :last_name %>
+                  <%= f.text_field :last_name, class: "form-control", required: true %>
+                </div>
+                <div class="form-group">
+                  <%= f.label :email %>
+                  <%= f.email_field :email, class: "form-control", required: true %>
+                </div>
+                <div class="form-group">
+                  <%= f.label :username %>
+                  <%= f.text_field :username, class: "form-control", required: true %>
+                </div>
+                <div class="form-group">
+                  <%= f.label :contact %>
+                  <%= f.text_field :contact, class: "form-control", required: true %>
+                </div>
+                <div class="form-group">
+                  <%= f.label :password %>
+                  <%= f.password_field :password, class: "form-control", required: true %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Payment Information</h3>
+            </div>
+            <div class="panel-body">
+              <div class="form-group">
+                <%= f.label :card_holdername %>
+                <%= f.text_field :card_holdername, class: "form-control", required: true %>
+              </div>
+              <div class="form-group">
+                <%= f.label :card_number %>
+                <%= f.text_field :card_number, class: "form-control", required: true, data: {stripe: "number"} %>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <%= f.label :Expiry_year %>
+                    <%= f.text_field :expiry_year, class: "form-control", required: true, data: {stripe: "exp-year"} %>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <%= f.label :Expiry_month %>
+                    <%= f.text_field :expiry_month, class: "form-control", required: true, data: {stripe: "exp-month"} %>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <%= f.label :CVV_number %>
+                    <%= f.password_field :cvv, class: "form-control", required: true, data: {stripe: "cvv"} %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <%= f.submit "Complete Registration", class: "btn btn-success btn-buy btn-ticket-type" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+<style type="text/css">
+  .btn-ticket-type {padding-left: 20px;padding-right:20px;}
+  .event-bottom {margin-top:-3%;}
+  .btn-buy {background-color: #2b6532;}
+</style>
+
+<script type="text/javascript">
+  jQuery(function ($) {
+    var show_error, stripeResponseHandler;
+    $("#new_registration").submit(function (event) {
+      var $form;
+      $form = $(this);
+      $form.find("input[type=submit]").prop("disabled", true);
+      Stripe.card.createToken($form, stripeResponseHandler);
+      return false;
+    });
+    stripeResponseHandler = function (status, response) {
+      var $form, token;
+      console.log(token);
+      $form = $("#new_registration");
+      if (response.error) {
+        show_error(response.error.message);
+        $form.find("input[type=submit]").prop("disabled", false);
+      } else {
+        token = response.id;
+        $form.append($("<input type=\"hidden\" name=\"user_data[card_token]\" />").val(token));
+        $("[data-stripe=number]").remove();
+        $("[data-stripe=cvv]").remove();
+        $("[data-stripe=exp-year]").remove();
+        $("[data-stripe=exp-month]").remove();
+        $form.get(0).submit();
+      }
+      return false;
+    };
+
+    show_error = function (message) {
+      $("#flash-messages").html('<div class="alert alert-warning"><a class="close" data-dismiss="alert">×</a><div id="flash_alert">' + message + '</div></div>');
+      $('.alert').delay(5000).fadeOut(3000);
+      return false;
+    };
+  });
+</script>

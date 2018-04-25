@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>EventHelmer</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'event', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/css?family=Muli:200,300,400,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Herr+Von+Muellerhoff" rel="stylesheet">
+    <%= javascript_include_tag 'event', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body id="body" class="body-wrapper boxed-menu">
+    <!-- <div id="preloader" class="smooth-loader-wrapper">
+      <div class="smooth-loader">
+        <div class="loader1">
+          <div class="loader-target">
+            <div class="loader-target-main"></div>
+            <div class="loader-target-inner"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+      <%= render "layouts/header" %>
+    <div class="main-wrapper">
+      <div>
+      <%= yield %>
+    </div>
+    </div>
+      <%= render "layouts/footer" %>
+  </body>
+</html>

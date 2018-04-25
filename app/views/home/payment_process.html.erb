@@ -1,0 +1,101 @@
+<%= javascript_include_tag "https://js.stripe.com/v2/" %>
+<script type="text/javascript">
+  Stripe.setPublishableKey('<%= "#{Rails.application.secrets.stripe_public_key}" %>')
+</script>
+<section class="clearfix processSection" style="margin-top: 100px">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="processArea">
+					<ul class="list-inline">
+						<li>
+							<h2>Your Billing Information</h2>
+							<div id="flash-messages"></div>
+							<%= form_for :payment_info, url: :pricing_create_member_ship, method: :post, html: {class: "loginForm", id: "payment_info"} do |f| %>
+								<%= f.hidden_field :plan_id, value: @plan.id %>
+								<%= f.hidden_field :organizer_id, value: current_event_organizer.id %>
+								<div class="form-group">
+									<%= f.text_field :card_holdername, class: "form-control", required: true, placeholder: "Cardholder Name" %>
+								</div>
+								<div class="form-group">
+									<%= f.text_field :card_number, class: "form-control", required: true, data: {stripe: "number"}, placeholder: "Card Number" %>
+								</div>
+								<div class="row">
+									<div class="col-sm-4 col-xs-12">
+									<div class="form-group">
+										<div class="date">
+											<%= f.text_field :expiry_year, class: "form-control", required: true, data: {stripe: "exp-year"}, placeholder: "YYYY" %>
+										</div>
+									</div>
+									</div>
+									<div class="col-sm-4 col-xs-12">
+										<div class="form-group">
+											<div class="date">
+												<%= f.text_field :expiry_month, class: "form-control", required: true, data: {stripe: "exp-month"}, placeholder: "MM" %>
+										</div>
+										</div>
+									</div>
+									<div class="col-sm-4 col-xs-12">
+										<div class="form-group">
+											<%= f.password_field :cvv, class: "form-control", required: true, data: {stripe: "cvv"}, placeholder: "CVV" %>
+										</div>
+									</div>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox"> By confirming you agree to Listty <a href="terms-of-services.html">Terms of Service</a>
+									</label>
+								</div>
+								<div class="form-group mgnBtm0">
+									<button type="submit" class="btn btn-primary">Confirm Purchase</button>
+								</div>
+							<% end %>
+						</li>
+						<li>
+							<h2>Your Purchase</h2>
+							<h3><%= @plan.name %> plan for event organizer</h3>
+							<p>$<%= @plan.price_per_six_month %></p>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+  jQuery(function ($) {
+    var show_error, stripeResponseHandler;
+    $("#payment_info").submit(function (event) {
+      var $form;
+      $form = $(this);
+      $form.find("input[type=submit]").prop("disabled", true);
+      Stripe.card.createToken($form, stripeResponseHandler);
+      return false;
+    });
+    stripeResponseHandler = function (status, response) {
+      var $form, token;
+      console.log(token);
+      $form = $("#payment_info");
+      if (response.error) {
+        show_error(response.error.message);
+        $form.find("input[type=submit]").prop("disabled", false);
+      } else {
+        token = response.id;
+        $form.append($("<input type=\"hidden\" name=\"payment_info[card_token]\" />").val(token));
+        $("[data-stripe=number]").remove();
+        $("[data-stripe=cvv]").remove();
+        $("[data-stripe=exp-year]").remove();
+        $("[data-stripe=exp-month]").remove();
+        $form.get(0).submit();
+      }
+      return false;
+    };
+
+    show_error = function (message) {
+      $("#flash-messages").html('<div class="alert alert-warning"><a class="close" data-dismiss="alert">×</a><div id="flash_alert">' + message + '</div></div>');
+      $('.alert').delay(5000).fadeOut(3000);
+      return false;
+    };
+  });
+</script>

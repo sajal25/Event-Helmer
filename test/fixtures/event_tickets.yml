@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  available_quantity: 1
+  price: 1
+  is_free: false
+  is_paid: false
+  ticket_sales_start_datetime: 2018-04-05 20:01:41
+  ticket_sales_end_datetime: 2018-04-05 20:01:41
+  ticket_description: MyText
+  event: one
+
+two:
+  name: MyString
+  available_quantity: 1
+  price: 1
+  is_free: false
+  is_paid: false
+  ticket_sales_start_datetime: 2018-04-05 20:01:41
+  ticket_sales_end_datetime: 2018-04-05 20:01:41
+  ticket_description: MyText
+  event: two

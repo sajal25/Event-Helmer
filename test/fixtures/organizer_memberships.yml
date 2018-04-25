@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  event_organizer_id: 1
+  membership_plan_id: 1
+  plan_registered: false
+  status: MyString
+
+two:
+  event_organizer_id: 1
+  membership_plan_id: 1
+  plan_registered: false
+  status: MyString

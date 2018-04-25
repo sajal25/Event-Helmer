@@ -1,0 +1,57 @@
+<section class="clearfix pageTitleSection" style="background-image: url();margin-top: 100px">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="pageTitle">
+					<h2>Pricing Plan</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- PRICING TABLE -->
+<section class="clearfix priceTableSection">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+				<div class="pricingIntro">
+					<p>Choose your loving plan from below. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed eiusmod tempor incididunt  labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<% @plans.each do |plan| %>
+				<div class="col-sm-4 col-xs-12">
+					<div class="priceTableWrapper">
+						<div class="priceTableTitle">
+							<h2><%= plan.name %><small>Need <%= plan.name %> Support</small></h2>
+						</div>
+						<div class="priceAmount">
+							<h2>$<%= plan.price_per_six_month %><small> for 6 months</small></h2>
+						</div>
+						<div class="priceInfo">
+
+							<ul class="list-unstyled">
+								<li><%= plan.feature_1 %></li>
+								<li><%= plan.feature_2 %></li>
+								<li><%= plan.feature_3 %></li>
+								<li><%= plan.feature_4 %></li>
+								<li><%= plan.feature_5 %></li>
+							</ul>
+							<div class="priceBtn">
+								<a href="/payment-process?plan_id=<%= plan.id %>" class="btn btn-primary">Purchase</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			<% end %>
+			<div class="col-xs-12">
+				<div class="signUpMessage">
+					<p>Not have an Account? <%= link_to "Sign-up", new_event_organizer_registration_path, :class => 'navbar-link' %>
+          </p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

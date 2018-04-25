@@ -1,0 +1,25 @@
+<%= form_for :order_item, url: :update_order_item_orders, method: :patch, remote: true do |f| %>
+  <div class="row" style="margin-top:1%;">
+    <div class="col-md-12">
+      <h4>Available Tickets : <%= @event_ticket.available_quantity %></h4>
+    </div>
+    <div class="col-md-8">
+      <h3><%= @event_ticket.name %></h3>
+    </div>
+    <div class="col-md-4">
+      <%= f.hidden_field :order_item_id, value: @order_item.id %>
+      <%= f.hidden_field :event_id, value: @event.id %>
+      <%= f.hidden_field :event_ticket_id, value: @event_ticket.id %>
+      <%= f.hidden_field :item_name, value: @event_ticket.name %>
+      <%= f.hidden_field :price, value: @event_ticket.price %>
+      <%= f.number_field :item_quantity, min: "1", max: "10", class: "form-control", required: true %>
+    </div>
+  </div>
+  <p class=""><%= truncate(@event_ticket.ticket_description, length: 100) %></p>
+  <div class="row event-bottom">
+    <div class="col-md-12">
+      <%= f.submit "Update Order Item", class: "btn btn-buy btn-ticket-type pull-right" %>
+      <%= link_to  "Remove Item", delete_order_item_orders_path(order_item_id: @order_item.id, ticket_id: @event_ticket.id, event_id: @event.id ), class: "btn btn-remove btn-ticket-type pull-right", remote: true, method: :delete, data: {confirm: "Are you sure?"} %>
+    </div>
+  </div>
+<% end %>

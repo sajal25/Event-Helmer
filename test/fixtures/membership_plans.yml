@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  price_per_six_month: 1
+  feature_1: MyString
+  feature_2: MyString
+  feature_3: MyString
+  feature_4: MyString
+  feature_5: MyString
+
+two:
+  name: MyString
+  price_per_six_month: 1
+  feature_1: MyString
+  feature_2: MyString
+  feature_3: MyString
+  feature_4: MyString
+  feature_5: MyString

@@ -1,0 +1,2 @@
+module EventTopicsHelper
+end

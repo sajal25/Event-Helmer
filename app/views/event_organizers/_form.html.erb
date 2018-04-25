@@ -1,0 +1,47 @@
+<%= form_with(model: event_organizer, local: true) do |form| %>
+  <% if event_organizer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(event_organizer.errors.count, "error") %> prohibited this event_organizer from being saved:</h2>
+
+      <ul>
+      <% event_organizer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :event_organizer_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :about %>
+    <%= form.text_area :about, id: :event_organizer_about %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email, id: :event_organizer_email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :website %>
+    <%= form.text_field :website, id: :event_organizer_website %>
+  </div>
+
+  <div class="field">
+    <%= form.label :contact %>
+    <%= form.text_field :contact, id: :event_organizer_contact %>
+  </div>
+
+  <div class="field">
+    <%= form.label :address %>
+    <%= form.text_field :address, id: :event_organizer_address %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
